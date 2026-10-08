@@ -5,6 +5,7 @@ import com.uc.ms_security.dto_user.UpdateUserDTO;
 import com.uc.ms_security.dto_user.UserDetailResponseDTO;
 import com.uc.ms_security.dto_user.UserResponseDTO;
 import com.uc.ms_security.dto_user.UserSessionsResponseDTO;
+import com.uc.ms_security.dto_user_role.UserRolesResponseDTO;
 import com.uc.ms_security.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class UserMapper {
 
     private final ProfileMapper profileMapper;
     private final SessionMapper sessionMapper;
+    private final UserRoleMapper userRoleMapper;
 
     public User toEntity(CreateUserDTO dto) {
         User user = new User();
@@ -60,6 +62,15 @@ public class UserMapper {
                 user.getName(),
                 user.getEmail(),
                 sessionMapper.toResponseDTOList(user.getSessions())
+        );
+    }
+
+    public UserRolesResponseDTO toRolesResponseDTO(User user) {
+        return new UserRolesResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                userRoleMapper.toResponseDTOList(user.getUserRoles()) //aqui se hace el join
         );
     }
 

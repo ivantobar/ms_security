@@ -5,6 +5,7 @@ import com.uc.ms_security.dto_user.UpdateUserDTO;
 import com.uc.ms_security.dto_user.UserDetailResponseDTO;
 import com.uc.ms_security.dto_user.UserResponseDTO;
 import com.uc.ms_security.dto_user.UserSessionsResponseDTO;
+import com.uc.ms_security.dto_user_role.UserRolesResponseDTO;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.exception.ApplicationException;
 import com.uc.ms_security.exception.ErrorCase;
@@ -68,6 +69,17 @@ public class UserService {
                         "Usuario no encontrado con id: " + id
                 ));
         return userMapper.toSessionsResponseDTO(user);
+    }
+
+    public UserRolesResponseDTO findByIdAndRoles(Long id) {
+        User user = userRepository.findWithRolesById(id)
+                .orElseThrow(() -> new ApplicationException(
+                        ErrorCase.NOT_FOUND,
+                        "Usuario no encontrado con id: " + id
+                ));
+        return userMapper.toRolesResponseDTO(user);//que hace el userMapper.toRolesResponseDTO(user)? 
+        //esto es para mapear el usuario a un DTO que contiene los roles del usuario, 
+        //para poder mostrarlos en la respuesta. Esto es para cuando se quiere traer los roles de un usuario, para poder mostrarlos en la respuesta.
     }
 
     public UserResponseDTO update(Long id, UpdateUserDTO dto) {

@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = {"sessions"})
     Optional<User> findWithSessionsById(Long id);
+
+    @EntityGraph(attributePaths = {"userRoles", "userRoles.role"}) 
+    Optional<User> findWithRolesById(Long id);// esto es un join triple, porque se hace un join con user_roles y luego con role, para traer los roles del usuario. Esto es para cuando se quiere traer los roles de un usuario, para poder mostrarlos en la respuesta.
 }
